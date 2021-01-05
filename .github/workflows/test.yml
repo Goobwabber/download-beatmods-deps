@@ -16,3 +16,12 @@ jobs:
         uses: ./
         with:
           manifest: ./examplemanifest.json
+  missingcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download Dependencies
+        uses: ./
+        with:
+          manifest: ./missingmanifest.json

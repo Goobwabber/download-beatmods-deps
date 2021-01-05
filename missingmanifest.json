@@ -1,0 +1,12 @@
+{
+    "id": "examplemod",
+    "version": "0.1.0",
+    "gameVersion": "1.13.0",
+    "dependsOn": {
+        "BSIPA": "^100.0.0",
+        "BS Utils": "^100.0.0",
+        "SongCore": "^100.0.0",
+        "missingmod":  "^100.0.0",
+        "examplemod": "^0.0.0"
+    }
+}

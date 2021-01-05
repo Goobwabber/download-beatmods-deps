@@ -37,6 +37,8 @@ async function main() {
                 core.warning("Mod '" + depName + "' version '" + depVersion + "' not found.");
             }
         }
+
+        core.info("Complete!");
     } catch(error) {
         core.setFailed(error.message);
     }
