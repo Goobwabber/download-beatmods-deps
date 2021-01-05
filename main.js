@@ -4,8 +4,6 @@ const semver = require('semver');
 const unzip = require ('unzipper');
 const fs = require("fs");
 
-main();
-
 async function main() {
     try {
         const manifestPath = core.getInput("manifest");
