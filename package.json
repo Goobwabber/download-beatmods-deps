@@ -1,0 +1,25 @@
+{
+  "name": "download-beatmods-deps",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Goobwabber/download-beatmods-deps.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Goobwabber/download-beatmods-deps/issues"
+  },
+  "homepage": "https://github.com/Goobwabber/download-beatmods-deps#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "node-fetch": "^2.6.1",
+    "semver": "^7.3.4",
+    "unzipper": "^0.10.11"
+  }
+}
