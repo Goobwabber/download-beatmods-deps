@@ -1,0 +1,3 @@
+name: Download Beatmod Dependencies
+description: Download and extract dependencies from beatmods using manifest.json
+author: Goobwabber
