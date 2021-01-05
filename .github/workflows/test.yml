@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  test:
+  realdeps:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,6 +16,11 @@ jobs:
         uses: ./
         with:
           manifest: ./examplemanifest.json
+  fakedeps:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Download Fake Dependencies
         uses: ./
         with:
