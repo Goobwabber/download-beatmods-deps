@@ -7,7 +7,7 @@ on:
   pull_request:
 
 jobs:
-  realdeps:
+  Real-Dependencies:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -15,13 +15,22 @@ jobs:
       - name: Download Dependencies
         uses: ./
         with:
-          manifest: ./examplemanifest.json
-  fakedeps:
+          manifest: ./tests/realmanifest.json
+  Fake-Dependencies:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Download Fake Dependencies
+      - name: Download Dependencies
         uses: ./
         with:
-          manifest: ./missingmanifest.json
+          manifest: ./tests/fakemanifest.json
+  BOM-Encoding:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download Dependencies
+        uses: ./
+        with:
+          manifest: ./tests/bommanifest.json
