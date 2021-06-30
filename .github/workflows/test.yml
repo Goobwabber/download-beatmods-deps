@@ -25,6 +25,17 @@ jobs:
         uses: ./
         with:
           manifest: ./tests/fakemanifest.json
+  Aliased-Dependencies:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Download Dependencies
+        uses: ./
+        with: 
+          manifest: ./tests/aliasedmanifest.json
+          aliases:
+            CustomAvatar: Custom Avatars 
   BOM-Encoding:
     runs-on: ubuntu-latest
     steps:

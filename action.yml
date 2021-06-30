@@ -13,6 +13,10 @@ inputs:
     description: Where to unpack dependencies
     required: false
     default: ${{github.workspace}}/Refs
+  aliases:
+    description: Dictionary of dependency id aliases
+    required: false
+    default: ~
 runs:
   using: node12
   main: main.js

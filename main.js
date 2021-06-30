@@ -10,6 +10,7 @@ async function main() {
     try {
         const manifestPath = core.getInput("manifest");
         const extractPath = core.getInput("path");
+        const depAliases = core.getInput("aliases");
 
         let manifestStringData = fs.readFileSync(manifestPath, 'utf8');
         if (manifestStringData.startsWith('\uFEFF')) {
@@ -34,7 +35,7 @@ async function main() {
 
         for (let depName of Object.keys(manifest.dependsOn)) {
             const depVersion = manifest.dependsOn[depName];
-            const dependency = mods.find(x => x.name === depName && semver.satisfies(x.version, depVersion));
+            const dependency = mods.find(x => (x.name === depName || x.name === depAliases[depName]) && semver.satisfies(x.version, depVersion));
 
             if (dependency != null) {
                 const depDownload = dependency.downloads.find(x => x.type === "universal").url;
