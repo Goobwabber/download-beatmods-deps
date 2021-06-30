@@ -13,7 +13,7 @@ async function main() {
 
         let manifestStringData = fs.readFileSync(manifestPath, 'utf8');
         if (manifestStringData.startsWith('\uFEFF')) {
-            core.warning("BOM character detected at the beginning of the manifest JSON file.\nPlease remove the BOM from the file as it is not conform to the JSON spec: https://datatracker.ietf.org/doc/html/rfc7159#section-8.1 and may cause issues regarding interoperability.")
+            core.warning("BOM character detected at the beginning of the manifest JSON file.\nPlease remove the BOM from the file as it does not conform to the JSON spec (https://datatracker.ietf.org/doc/html/rfc7159#section-8.1) and may cause issues regarding interoperability.")
             manifestStringData = manifestStringData.slice(1);
         }
 
