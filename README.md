@@ -1,6 +1,7 @@
 # Download Beatmods Dependencies
 
-An action that downloads and extracts beatsaber mod dependencies using a mod's manifest file. Mods are pulled from https://beatmods.com/.
+An action that downloads and extracts Beat Saber mod dependencies using a mod's manifest file. Mods are pulled from https://beatmods.com/.
+Manifest is expected to be UTF-8 encoded.
 
 ## Usage
 

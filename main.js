@@ -1,23 +1,30 @@
 const core = require('@actions/core');
 const fetch = require('node-fetch');
 const semver = require('semver');
-const unzip = require ('unzipper');
+const unzip = require('unzipper');
 const fs = require("fs");
 
-main()
+main().then(() => core.info("Complete!"))
 
 async function main() {
     try {
         const manifestPath = core.getInput("manifest");
         const extractPath = core.getInput("path");
 
-        const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+        let manifestStringData = fs.readFileSync(manifestPath, 'utf8');
+        if (manifestStringData.startsWith('\uFEFF')) {
+            core.warning("BOM character detected at the beginning of the manifest JSON file.\nPlease remove the BOM from the file as it is not conform to the JSON spec: https://datatracker.ietf.org/doc/html/rfc7159#section-8.1 and may cause issues regarding interoperability.")
+            manifestStringData = manifestStringData.slice(1);
+        }
+
+        const manifest = JSON.parse(manifestStringData);
+
         core.info("Retrieved manifest of '" + manifest.id + "' version '" + manifest.version + "'");
 
         const gameVersions = await fetchJson("https://versions.beatmods.com/versions.json");
         const versionAliases = await fetchJson("https://alias.beatmods.com/aliases.json");
 
-        const version = gameVersions.find(x => x == manifest.gameVersion || versionAliases[x].some(y => y == manifest.gameVersion));
+        const version = gameVersions.find(x => x === manifest.gameVersion || versionAliases[x].some(y => y === manifest.gameVersion));
         if (version == null) {
             throw new Error("Game version '" + manifest.gameVersion + "' doesn't exist.");
         }
@@ -25,21 +32,19 @@ async function main() {
         core.info("Fetching mods for game version '" + version + "'");
         const mods = await fetchJson("https://beatmods.com/api/v1/mod?gameVersion=" + version);
 
-        for(var depName of Object.keys(manifest.dependsOn)) {
-            var depVersion = manifest.dependsOn[depName];
-            var dependency = mods.find(x => x.name == depName && semver.satisfies(x.version, depVersion));
+        for (let depName of Object.keys(manifest.dependsOn)) {
+            const depVersion = manifest.dependsOn[depName];
+            const dependency = mods.find(x => x.name === depName && semver.satisfies(x.version, depVersion));
 
             if (dependency != null) {
-                var depDownload = dependency.downloads.find(x => x.type == "universal").url;
+                const depDownload = dependency.downloads.find(x => x.type === "universal").url;
                 core.info("Downloading mod '" + depName + "' version '" + dependency.version + "'");
                 await download("https://beatmods.com" + depDownload, extractPath);
-            }else{
+            } else {
                 core.warning("Mod '" + depName + "' version '" + depVersion + "' not found.");
             }
         }
-
-        core.info("Complete!");
-    } catch(error) {
+    } catch (error) {
         core.setFailed(error.message);
     }
 }
@@ -51,5 +56,5 @@ async function fetchJson(url) {
 
 async function download(url, extractPath) {
     const response = await fetch(url);
-    await response.body.pipe(unzip.Extract({ path: extractPath }));
+    await response.body.pipe(unzip.Extract({path: extractPath}));
 }
