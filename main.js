@@ -11,7 +11,16 @@ async function main() {
         const manifestPath = core.getInput("manifest");
         const extractPath = core.getInput("path");
 
-        const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8'));
+        let manifestStringData = fs.readFileSync(manifestPath, 'utf8');
+        if (manifestStringData.startsWith('\uFEFF')) {
+            core.error("BOM character detected at the beginning of the manifest JSON file. " +
+                "Please remove the BOM from the file as it is not conform to the JSON spec: " +
+                "https://datatracker.ietf.org/doc/html/rfc7159#section-8.1")
+            manifestStringData = manifestStringData.slice(1);
+        }
+
+        const manifest = JSON.parse(manifestStringData);
+
         core.info("Retrieved manifest of '" + manifest.id + "' version '" + manifest.version + "'");
 
         const gameVersions = await fetchJson("https://versions.beatmods.com/versions.json");
