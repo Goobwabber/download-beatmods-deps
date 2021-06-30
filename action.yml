@@ -16,7 +16,7 @@ inputs:
   aliases:
     description: Dictionary of dependency id aliases
     required: false
-    default: ~
+    default: '{}'
 runs:
   using: node12
   main: main.js

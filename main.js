@@ -10,7 +10,9 @@ async function main() {
     try {
         const manifestPath = core.getInput("manifest");
         const extractPath = core.getInput("path");
-        const depAliases = core.getInput("aliases");
+        const rawAliases = core.getInput("aliases");
+
+        const depAliases = JSON.parse(rawAliases);
 
         let manifestStringData = fs.readFileSync(manifestPath, 'utf8');
         if (manifestStringData.startsWith('\uFEFF')) {

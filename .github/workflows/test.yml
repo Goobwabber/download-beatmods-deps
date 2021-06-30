@@ -34,8 +34,7 @@ jobs:
         uses: ./
         with: 
           manifest: ./tests/aliasedmanifest.json
-          aliases:
-            CustomAvatar: Custom Avatars 
+          aliases: '{"CustomAvatar": "Custom Avatars"}'
   BOM-Encoding:
     runs-on: ubuntu-latest
     steps:
