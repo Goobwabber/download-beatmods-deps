@@ -4,6 +4,16 @@ const semver = require('semver');
 const unzip = require('unzipper');
 const fs = require("fs");
 
+const USER_AGENT = `download-beatmods-deps/${process.env.GITHUB_ACTION_REF || '1.3'} (GitHub Actions)`;
+
+const fetchOptions = {
+    method: 'GET',
+    headers: {
+        'User-Agent': USER_AGENT,
+        'Content-Type': 'application/json',
+    }
+};
+
 main().then(() => core.info("Complete!"))
 
 async function main() {
@@ -59,11 +69,11 @@ async function main() {
 }
 
 async function fetchJson(url) {
-    const response = await fetch(url);
+    const response = await fetch(url, fetchOptions);
     return await response.json();
 }
 
 async function download(url, extractPath) {
-    const response = await fetch(url);
+    const response = await fetch(url, fetchOptions);
     await response.body.pipe(unzip.Extract({path: extractPath}));
 }
